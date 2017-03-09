@@ -6,11 +6,13 @@ Stack::Stack (int x, int y)
 {
     unlim_flg = 0;
     if(x <= 0) //unlimited size 
-        size = unlim_flg = 1;
+        size = unlim_flg = 100;
     else 
         size = x;
-
-    str_size = y; //make str size unlim
+    if(y <= 0)
+        str_size = 255;
+    else
+        str_size = y; 
     top = -1; //originally empty
     sp = new char* [size];
 }

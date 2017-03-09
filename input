@@ -1,0 +1,21 @@
+5
+/help
+push 1 2 3 4 5 push
+print
+pop
+print
+stack+ stringA
+stack- stringB
+print
+stack+ stringB
+print
+length
+maxsize
+print
+pop pop pop pop pop pop pop
+stack- 1
+stack+ 2
+stack- stack+
+stack+ stack+
+print
+

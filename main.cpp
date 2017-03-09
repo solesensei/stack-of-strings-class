@@ -63,7 +63,7 @@ int main(int argc, char** argv)
 
     char cmd[1024]; //command buffer
     bool check = false;
-    char* str;
+    char* str = NULL;
     int cur = 0;
 
     while (cin >> cmd)
@@ -89,8 +89,8 @@ int main(int argc, char** argv)
             case spop:
 
                 cin >> pop_name[ cur ]; 
-                
-                if (  myStack - pop_str[ cur ] ) str = pop_name [ cur ] = NULL;
+
+                if (  myStack - pop_str[ cur ] ){ str = NULL; *pop_name[cur] = '\0'; }
                 else str = pop_str[ cur++ ];
                 if ( cur == p_SIZE && (cur = 0) )
                     cout << "end of str buf,\nnext str will overwrite previous" << endl;
@@ -106,8 +106,7 @@ int main(int argc, char** argv)
             break;
             case peek:
                 
-                str = myStack.peek();
-                if (str)
+                if ( myStack.peek() )
                     cout << "Peeked! : " << str << endl;
                 else
                     cout << "Stack empty!" << endl;
@@ -137,8 +136,9 @@ int main(int argc, char** argv)
             break;
             case help: cout << "end of man" << endl;
         }
-
+        if (str)
         delete [] str;
+        str = NULL;
     }
     
     return 0;
