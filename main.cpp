@@ -1,129 +1,7 @@
-#include <iostream>
-#include <cstring>
-#include <unistd.h>
-#include <stdlib.h>
+#include "string_stack.h"
 
 using namespace std;
 
-
-//module: stack_class.cpp
-class Stack
-{
-public:
-    Stack (int x = 10, int y = 255); 
-    ~Stack ();
-    void print_stack() const;
-    bool push (const char*);
-    char* pop();
-    char* peek() const;
-    int length() const;
-    int maxsize() const;
-    bool operator+ (const char*);
-    bool operator- (char* &);
-
-private:
-    char**  sp; //stack pointer
-    int     top; 
-    int     size; //stack size
-    int     str_size;
-    int     unlim_flg; //if size or str_size unlimited 
-
-};
-
-Stack::Stack (int x, int y) 
-{
-    unlim_flg = 0;
-    if(x <= 0) //unlimited size 
-        size = unlim_flg = 1;
-    else 
-        size = x;
-
-    str_size = y; //make str size unlim
-    top = -1; //originally empty
-    sp = new char* [size];
-}
-
-Stack::~Stack ()
-{
-    for (int i = size-1; i>=0; --i)
-    {
-        if (sp[i] == NULL) continue;
-        delete [] sp[i];
-    }
-    
-    delete [] sp;
-}
-
-void Stack::print_stack() const
-{
-    cout << "Stack: -----" << endl;
-    for(int i = top; i>=0; --i)
-        cout << sp[i] << endl;
-    cout << "------------" << endl;
-
-}
-
-bool Stack::push (const char* str)
-{
-    if (top >= size-1) //full stack
-        return true; 
-
-    sp[ ++top ] = new char [str_size];
-    strcpy( sp[top] , str ); 
-
-    return false;
-}
-
-bool Stack::operator+ (const char* str)
-{
-   return push(str);
-}
-
-bool Stack::operator- (char* & str)
-{
-    str = pop();
-
-    return str == NULL ? true : false;
-}
-
-char* Stack::pop()
-{
-
-    if ( top < 0 ) //empty stack
-        return NULL; 
-    
-    int length = strlen( sp[top] );
-    char* pop_str =  new char [ length ]; 
-    strcpy( pop_str , sp[top] );
-    delete [] sp[top];
-    sp[top] = NULL;
-    top--;
-
-    return pop_str; 
-    
-}
-
-char* Stack::peek() const
-{
-    if (top < 0) //empty stack
-        return NULL;
-             
-    return sp[top];
-}
-
-int Stack::length() const
-{
-    return top+1;
-}
-
-int Stack::maxsize() const
-{
-    if ( unlim_flg )
-        return -1;
-    return size;
-}
-
-enum stack_cmd { push, pop, peek, print, length, size, undef, spush, spop, help };
 stack_cmd _selector (const char* str)
 {
     if ( !strcmp(str,"push") ) return push;
@@ -160,11 +38,11 @@ stack_cmd _selector (const char* str)
     return undef;
 }
 
-char* pop_name[10]; //stack- | store names of cache strings
-char* pop_str[10]; //cache strings 
+char* pop_name[p_SIZE]; //stack- | store names of cache strings
+char* pop_str[p_SIZE]; //cache strings 
 const char* str_find (const char* str) 
 {
-    for(int i = 9; i>=0; --i)
+    for(int i = p_SIZE-1; i>=0; --i)
         if ( pop_name[i] != NULL && !strcmp(pop_name[i],str) ) return pop_str[i];
     return str;
 }
@@ -180,8 +58,8 @@ int main(int argc, char** argv)
     Stack myStack( stack_size ); //init stack
     cout << "print '/help' to man commands" << endl;
 
-    for(int i = 0; i < 10; ++i)
-        pop_name[i] = new char [10];
+    for(int i = 0; i < p_SIZE; ++i)
+        pop_name[i] = new char [p_SIZE];
 
     char cmd[1024]; //command buffer
     bool check = false;
@@ -214,7 +92,7 @@ int main(int argc, char** argv)
                 
                 if (  myStack - pop_str[ cur ] ) str = pop_name [ cur ] = NULL;
                 else str = pop_str[ cur++ ];
-                if ( cur == 10 && (cur = 0) )
+                if ( cur == p_SIZE && (cur = 0) )
                     cout << "end of str buf,\nnext str will overwrite previous" << endl;
             
             case pop: 
@@ -260,6 +138,7 @@ int main(int argc, char** argv)
             case help: cout << "end of man" << endl;
         }
 
+        delete [] str;
     }
     
     return 0;
