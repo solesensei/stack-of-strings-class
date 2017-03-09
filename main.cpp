@@ -1,5 +1,7 @@
 #include <iostream>
 #include <cstring>
+#include <unistd.h>
+#include <stdlib.h>
 
 using namespace std;
 
@@ -17,7 +19,7 @@ public:
     int length() const;
     int maxsize() const;
     bool operator+ (const char*);
-    char* operator- (const char*);
+    bool operator- (char* &);
 
 private:
     char**  sp; //stack pointer
@@ -74,13 +76,16 @@ bool Stack::push (const char* str)
 
 bool Stack::operator+ (const char* str)
 {
-    push(str);
-    return false;
+   return push(str);
 }
-char* Stack::operator- (const char* str)
+
+bool Stack::operator- (char* & str)
 {
-    return pop();
+    str = pop();
+
+    return str == NULL ? true : false;
 }
+
 char* Stack::pop()
 {
 
@@ -155,12 +160,12 @@ stack_cmd _selector (const char* str)
     return undef;
 }
 
-char pop_name[10][10]; //stack- | store names of cache strings
-char* pop_str[10]; //strings 
+char* pop_name[10]; //stack- | store names of cache strings
+char* pop_str[10]; //cache strings 
 const char* str_find (const char* str) 
 {
     for(int i = 9; i>=0; --i)
-        if (!strcmp(pop_name[i],str)) return pop_str[i];
+        if ( pop_name[i] != NULL && !strcmp(pop_name[i],str) ) return pop_str[i];
     return str;
 }
 
@@ -175,13 +180,16 @@ int main(int argc, char** argv)
     Stack myStack( stack_size ); //init stack
     cout << "print '/help' to man commands" << endl;
 
+    for(int i = 0; i < 10; ++i)
+        pop_name[i] = new char [10];
+
     char cmd[1024]; //command buffer
     bool check = false;
     char* str;
     int cur = 0;
-    while (1)
+
+    while (cin >> cmd)
     {
-        cin >> cmd;
         stack_cmd _sel = _selector(cmd);
         switch(_sel){
             case push:
@@ -203,21 +211,20 @@ int main(int argc, char** argv)
             case spop:
 
                 cin >> pop_name[ cur ]; 
-        
+                
+                if (  myStack - pop_str[ cur ] ) str = pop_name [ cur ] = NULL;
+                else str = pop_str[ cur++ ];
+                if ( cur == 10 && (cur = 0) )
+                    cout << "end of str buf,\nnext str will overwrite previous" << endl;
+            
             case pop: 
-                str = myStack.pop();
-                if (_sel == spop){
-                    pop_str [ cur ] = myStack - pop_name[ cur ];
-                    if ( ++cur == 10)
-                    {
-                        cout << "end of str buf,\nnext str will overwrite previous" << endl;
-                        cur = 0;
-                    }
-                }
+
+                if (_sel != spop) str = myStack.pop();
                 if (str)
                     cout << "Poped! : " << str << endl;
                 else
                     cout << "Stack empty!" << endl;
+
             break;
             case peek:
                 
