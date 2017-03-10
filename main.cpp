@@ -140,6 +140,9 @@ int main(int argc, char** argv)
         delete [] str;
         str = NULL;
     }
+    for(int i = 0; i<p_SIZE; ++i)
+        if (pop_name[i])
+            delete [] pop_name[i];
     
     return 0;
 } 
