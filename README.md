@@ -1,7 +1,8 @@
-# sole
-class stack 
+# by sole
+class stack of strings
 Task2 - cmc - 4 sem
-####how it works: 
+
+#### how it works: 
 
     :make pr
     :input | ./pr 
