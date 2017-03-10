@@ -10,6 +10,7 @@ or
     :./pr
 
 to test
+
     :make test
     :./test
 
