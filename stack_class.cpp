@@ -4,17 +4,14 @@ using namespace std;
 
 Stack::Stack (int x, int y) 
 {
-    unlim_flg = 0;
-    if(x <= 0) //unlimited size 
-        size = unlim_flg = 100;
-    else 
-        size = x;
-    if(y <= 0)
-        str_size = 255;
-    else
-        str_size = y; 
+    if(x <= 0 || y <= 0)
+        throw invalid_argument("constructor args < 0");
+
+    size = x;
+    str_size = y; 
     top = -1; //originally empty
     sp = new char* [size];
+    for (int i=0;i<size;++i) sp[i] = NULL; //calloc sp
 }
 
 Stack::~Stack ()
@@ -24,7 +21,6 @@ Stack::~Stack ()
         if (sp[i] == NULL) continue;
         delete [] sp[i];
     }
-    
     delete [] sp;
 }
 
@@ -41,7 +37,9 @@ bool Stack::push (const char* str)
 {
     if (top >= size-1) //full stack
         return true; 
-
+    int length = strlen(str);
+    if ( length >  str_size )
+        throw overflow_error("stack string < pushed string");
     sp[ ++top ] = new char [str_size];
     strcpy( sp[top] , str ); 
 
@@ -92,8 +90,5 @@ int Stack::length() const
 
 int Stack::maxsize() const
 {
-    if ( unlim_flg )
-        return -1;
     return size;
 }
-

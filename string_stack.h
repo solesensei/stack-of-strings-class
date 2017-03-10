@@ -23,7 +23,6 @@ private:
   int     top;
   int     size; //stack size
   int     str_size;
-  int     unlim_flg; //if size or str_size unlimited 
 
 };
 
