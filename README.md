@@ -14,7 +14,7 @@ to test
     :make test
     :./test
 
-####commands: (/help) 
+#### commands: (/help) 
 
         push   - string to stack
         pop    - string from stack
@@ -25,7 +25,7 @@ to test
         stack+ - push str to stack
         stack- - pop to str, maxsize = 10
         
-####examples:
+#### examples:
 
       push 1 2 3 4 5 push // now 1-5 in stack
       pop // 1-4 in stack
@@ -36,7 +36,7 @@ to test
       pop pop pop pop pop 
       stack empty!
       
-##Task2: Stack of strings class
+## Task2: Stack of strings class
 
 Необходимо на Си++ реализовать и протестировать новый класс, представляющий
 
