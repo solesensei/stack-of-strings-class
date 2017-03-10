@@ -2,6 +2,7 @@
 class stack 
 Task2 - cmc - 4 sem
 ####how it works: 
+
     :make pr
     :input | ./pr 
 
