@@ -18,6 +18,8 @@ public:
   int maxsize() const;
   bool operator+ (const char*);
   bool operator- (char* &);
+  bool operator= (const Stack& s);
+
 private:
   char**  sp; //stack pointer
   int     top;

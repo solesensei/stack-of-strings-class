@@ -27,7 +27,8 @@ Stack::~Stack ()
 void Stack::print_stack() const
 {
     cout << "Stack: -----" << endl;
-    for(int i = top; i>=0; --i)
+    for(int i = size-1; i>=0; --i)
+        if (sp[i])
         cout << sp[i] << endl;
     cout << "------------" << endl;
 
@@ -54,8 +55,29 @@ bool Stack::operator+ (const char* str)
 bool Stack::operator- (char* & str)
 {
     str = pop();
-
     return str == NULL ? true : false;
+}
+
+bool Stack::operator= (const Stack & s)
+{
+    int i;
+    int lenL = length();
+    int lenR = s.length();
+    for(i = lenL; i < lenR; ++i )
+    {
+        sp[i] = new char [str_size];
+    }
+    for(i = 0; i < lenR; ++i)
+    {
+        strcpy( sp[i] , s.sp[i] );
+    }
+    for(; i<length();++i)
+    {
+        if( sp[i] )
+            delete [] sp[i];
+        sp[i] = NULL;
+    }
+    return true;
 }
 
 char* Stack::pop()

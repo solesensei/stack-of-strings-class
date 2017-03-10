@@ -136,9 +136,11 @@ int main(int argc, char** argv)
             break;
             case help: cout << "end of man" << endl;
         }
-        if (str)
-        delete [] str;
-        str = NULL;
+        /*if (str && !strcmp( str_find(str),str ) )
+        {
+            delete [] str;
+            str = NULL;
+        }*/
     }
     for(int i = 0; i<p_SIZE; ++i)
         if (pop_name[i])

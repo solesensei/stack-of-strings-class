@@ -82,5 +82,16 @@ int main()
         cout<<"error: "<<err.what()<<endl;
     }
 
+    cout << "6. Checking stack1 = stack2..."<<endl;
+    Stack s1(2,10), s2(3,10);
+    s1.push("123");
+    s2.push("abc"); s2.push("cba");
+    cout<< "s1: "; s1.print_stack();
+    cout<< "s2: "; s2.print_stack();
+    cout<<"try s1 = s2 ..."<<endl;
+    s1 = s2;
+    cout<< "s1: "; s1.print_stack();
+    cout<< "s2: "; s2.print_stack();
+
     return 0;
-}
+}   
