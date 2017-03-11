@@ -71,7 +71,8 @@ bool Stack::operator= (const Stack & s)
     {
         strcpy( sp[i] , s.sp[i] );
     }
-    for(; i<length();++i)
+    top = lenR-1;
+    for(; i<lenL;++i)
     {
         if( sp[i] )
             delete [] sp[i];

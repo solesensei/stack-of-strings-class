@@ -84,25 +84,35 @@ int main(int argc, char** argv)
                 
                 cin >> cmd;
                 if ( myStack + str_find(cmd) ) cout << "Stack fulled!" << endl;
-                
+                else  cout << str_find(cmd) << " pushed to stack" << endl; 
+
             break;
             case spop:
 
                 cin >> pop_name[ cur ]; 
 
                 if (  myStack - pop_str[ cur ] ){ str = NULL; *pop_name[cur] = '\0'; }
-                else str = pop_str[ cur++ ];
+                else str = pop_str[ cur ];
+                
+                if (str)
+                    cout << "'" << str << "' poped to  '" << pop_name[cur] << "'" << endl;
+                else
+                    cout << "Stack empty!" << endl;
+
                 if ( cur == p_SIZE && (cur = 0) )
                     cout << "end of str buf,\nnext str will overwrite previous" << endl;
-            
+                str = NULL;
+
+            break;
             case pop: 
 
-                if (_sel != spop) str = myStack.pop();
+                str = myStack.pop();
+
                 if (str)
                     cout << "Poped! : " << str << endl;
                 else
                     cout << "Stack empty!" << endl;
-
+            
             break;
             case peek:
                 
@@ -136,11 +146,11 @@ int main(int argc, char** argv)
             break;
             case help: cout << "end of man" << endl;
         }
-        /*if (str && !strcmp( str_find(str),str ) )
+        if (str)
         {
             delete [] str;
             str = NULL;
-        }*/
+        }
     }
     for(int i = 0; i<p_SIZE; ++i)
         if (pop_name[i])

@@ -81,17 +81,22 @@ int main()
     {
         cout<<"error: "<<err.what()<<endl;
     }
+    try{
+        cout << "6. Checking stack1 = stack2..."<<endl;
+        Stack s1(2,10), s2(3,10);
+        s1.push("123");
+        s2.push("abc"); s2.push("cba");
+        cout<<"trying stack1 = stack2 ..."<<endl;
+        s1 = s2;
 
-    cout << "6. Checking stack1 = stack2..."<<endl;
-    Stack s1(2,10), s2(3,10);
-    s1.push("123");
-    s2.push("abc"); s2.push("cba");
-    cout<< "s1: "; s1.print_stack();
-    cout<< "s2: "; s2.print_stack();
-    cout<<"try s1 = s2 ..."<<endl;
-    s1 = s2;
-    cout<< "s1: "; s1.print_stack();
-    cout<< "s2: "; s2.print_stack();
-
+        if ( strcmp(s1.pop(),s2.pop()) && strcmp(s1.pop(),s2.pop()) ) 
+            throw logic_error("stack1 != stack2");
+        cout << "stack1 == stack2 " << endl;
+    }
+    catch (exception& err)
+    {
+        cout << "error: "<< err.what() << endl;
+    }   
+    cout << "Testing completed!" << endl;
     return 0;
 }   
